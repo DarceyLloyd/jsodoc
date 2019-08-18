@@ -1,4 +1,4 @@
-const aftc = require("./aftc-node-utils");
+const aftc = require("./aftc-node-tools");
 const log = aftc.log;
 
 const fs = require('fs-extra');
