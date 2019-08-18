@@ -1,6 +1,6 @@
 {
   "name": "jsodoc",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "JS Object Based Docs",
   "main": "index.js",
   "scripts": {
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/DarceyLloyd/jsodoc#readme",
   "dependencies": {
+    "aftc-node-tools": "^0.1.0",
     "fs-extra": "^8.1.0"
   }
 }
