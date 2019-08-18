@@ -9,117 +9,125 @@ const util = require('util');
 
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-class Docs
+class JSODoc
 {
     constructor()
     {
         this.comments = [];
+        this.docsjs = "";
+        // Might be able to just pass a reference in!
+        // this.docsjs += "const jsodoc = require(\"./node_modules/jsodoc/jsodoc.js\");"+"\n";
+        // this.docsjs += "const docs = new JSODoc();"+"\n";
     }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    
     add(vo){
+        log("JSODoc.add(vo)")
         this.comments.push(vo);
     }
-    build(){
-        // Parse object to html using standard object syntax, no parser required!
-        let out = "";
-        this.comments.forEach(function(comment){
-            out += comment.name + "\n";
-        });
-        return out;
-    }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
     getPrependCode(){
+        log("JSODoc.getPrependCode()")
         let code = "";
         code += "const anu = require(\"../node-docs\");\n";
         code += "const docs = new anu.Docs();\n";
         return code;
     }
-}
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
+    async build(filePath,docsUrl,silent=false){
+        if (!silent){
+            log(`JSODoc.build(filePath:${filePath},docsUrl:${docsUrl},silent:${silent}`,"cyan");
+        }
+        // Check file exists before using it
+        //path.resolve("./dist/aftc.dev.js");
+        const commentsFile = await aftc.checkFileExistsSync(filePath, 2, 4, false);
+        if (!commentsFile) {
+            log("# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #", "red")
+            log("JSODoc.build(): FAILED! Unable to find file [" + filePath + "]", "red");
+            log("# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #", "red")
+            return false;
+        }
 
+        log(commentsFile);
+        log("TIME TO BUILD")
 
-function getPrependCode(){
-    let code = "";
-    code += "const anu = require(\"../node-docs\");\n";
-    code += "const docs = new anu.Docs();\n";
-    return code;
-}
-
-
-
-
-function parseComments(filePath,startMarker,endMarker,silent=true,showLinesAdded=false) {
-    if (!silent){
-        log(`node-docs.parseComments(
-        filePath:${filePath},
-        startMarker:${startMarker},
-        endMarker:${endMarker},
-        silent:${silent}`,"cyan");
     }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    const readline = require('readline');
-    let lines = [];
-    let newFile = "";
-    let lineNo = 0;
-    let linesAdded = 0;
-    let open = false; // flag for // CStart
 
-    return promise = new Promise((resolve, reject) => {
-        let rl = readline.createInterface({
-            input: fs.createReadStream(filePath)
-        });
+    parseComments(filePath,startMarker,endMarker,silent=true,showLinesAdded=false) {
+        if (!silent){
+            log(`JSODoc.parseComments(
+            filePath:${filePath},
+            startMarker:${startMarker},
+            endMarker:${endMarker},
+            silent:${silent}`,"cyan");
+        }
     
-        rl.on('line', function (line) {
-            lineNo++;
+        const readline = require('readline');
+        let lines = [];
+        let newFile = "";
+        let lineNo = 0;
+        let linesAdded = 0;
+        let open = false; // flag for // CStart
     
-            if (!open) {
-                if (line.indexOf(startMarker) > -1) {
-                    open = true;
-                    // newFile += line + "\n";
-                    // linesAdded++;
-                    // if (!silent && showLinesAdded){
-                    //     log("ADDING ["+lineNo+"]: " + line,"yellow");
-                    // }
-                }
-            } else {
-                if (line.indexOf(endMarker) > -1) {
-                    open = false;
-                } else {
-                    if (!silent && showLinesAdded){
-                        log("ADDING ["+lineNo+"]: " + line,"yellow");
+        return promise = new Promise((resolve, reject) => {
+            let rl = readline.createInterface({
+                input: fs.createReadStream(filePath)
+            });
+        
+            rl.on('line', function (line) {
+                lineNo++;
+        
+                if (!open) {
+                    if (line.indexOf(startMarker) > -1) {
+                        open = true;
+                        // newFile += line + "\n";
+                        // linesAdded++;
+                        // if (!silent && showLinesAdded){
+                        //     log("ADDING ["+lineNo+"]: " + line,"yellow");
+                        // }
                     }
-                    newFile += line + "\n";
-                    linesAdded++;
+                } else {
+                    if (line.indexOf(endMarker) > -1) {
+                        open = false;
+                    } else {
+                        if (!silent && showLinesAdded){
+                            log("ADDING ["+lineNo+"]: " + line,"yellow");
+                        }
+                        newFile += line + "\n";
+                        linesAdded++;
+                    }
+                    
+                    
+                }
+            });
+        
+            rl.on('close', function (line) {
+                if (!silent && showLinesAdded){
+                    log('Processed ' + lineNo + " lines...","green");
+                    log('New file has ' + linesAdded + " lines...","green");
                 }
                 
-                
-            }
-        });
+                // resolve(newFile);
+                return newFile;
+            });
     
-        rl.on('close', function (line) {
-            if (!silent && showLinesAdded){
-                log('Processed ' + lineNo + " lines...","green");
-                log('New file has ' + linesAdded + " lines...","green");
-            }
-            
-            resolve(newFile);
+    
         });
-
-
-    });
+    }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 }
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-
-
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
 module.exports = {
-    Docs:Docs,
-    parseComments:parseComments,
-    getPrependCode:getPrependCode
+    JSODoc
 }
 
 
