@@ -1,0 +1,26 @@
+{
+  "name": "jsodoc",
+  "version": "0.1.0",
+  "description": "JS Object Based Docs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DarceyLloyd/jsodoc.git"
+  },
+  "keywords": [
+    "documentations",
+    "docs"
+  ],
+  "author": "darcey@aftc.io",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DarceyLloyd/jsodoc/issues"
+  },
+  "homepage": "https://github.com/DarceyLloyd/jsodoc#readme",
+  "dependencies": {
+    "fs-extra": "^8.1.0"
+  }
+}
