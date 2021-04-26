@@ -1,10 +1,57 @@
 // JSODOC = {
+//     "method": "getFilesSync",
+//     "params": [
+//         {
+//             "name": "dir",
+//             "type": "Array",
+//             "required": true,
+//             "default": null,
+//             "info": "Directory."
+//         },
+//         {
+//             "name": "ext",
+//             "type": "String",
+//             "required": true,
+//             "default": "*",
+//             "info": "Array of files."
+//         },
+//         {
+//             "name": "recurse",
+//             "type": "Boolean",
+//             "required": false,
+//             "default": false,
+//             "info": "Array of files."
+//         },
+//         {
+//             "name": "includeHidden",
+//             "type": "Boolean",
+//             "required": false,
+//             "default": false,
+//             "info": "Array of files."
+//         }
+//     ],
+//     "returns": {
+//         "type": "Array"
+//     },
+//     "info": "Gets an array of files in a directory. Hidden files start with a . (linux style, not windows)",
+//     "example": [
+//         "let files = getFilesSync('./src', '.js', true);"
+//     ]
+// } JSODOC
+
+
+
+
+
+
+// JSODOC = {
 //     "method": "jsoGetDocs",
 //     "params": [
 //         {
 //             "name": "filePathsArrayOrString",
 //             "type": "Array||String",
 //             "required": true,
+//             "default": null,
 //             "info": "Either an array of file paths or a string which contains the documentation to process."
 //         }
 //     ],

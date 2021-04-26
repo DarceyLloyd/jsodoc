@@ -68,20 +68,6 @@ const getMethodParams = (jsonData) => {
 
 let getMethodReturns = (jsonData) => {
 
-    // Example (handle both!)
-    // Old
-    //     "returns": "Array",
-
-    // New
-    //     "returns": {
-    //         "type": "Object",
-    //         "returns": [
-    //             {"name":"gitSummary","type":"String"},
-    //             {"name":"gitDocs","type":"String"},
-    //             {"name":"comments","type":"Array"}
-    //         ]
-    //     },
-
     let str = "";
 
     if (jsonData.hasOwnProperty("returns")) {
@@ -94,7 +80,9 @@ let getMethodReturns = (jsonData) => {
         } else {
             // New
             if (jsonData.returns.hasOwnProperty("type")) {
-                if (jsonData.returns.type == "Object") {
+                // log("jsonData.returns.type = " + jsonData.returns.type)
+
+                if (jsonData.returns.type.toLowerCase() == "object") {
                     if (jsonData.returns.hasOwnProperty("params")) {
                         // log(jsonData.returns.params)
 
@@ -103,7 +91,7 @@ let getMethodReturns = (jsonData) => {
 
                         jsonData.returns.params.forEach(param => {
                             str += "- "
-                            log(param)
+                            // log(param)
                             if (param.hasOwnProperty("name")) {
                                 str += "<b>Name: </b>" + param["name"] + "<br>\n"
                             }
@@ -118,15 +106,14 @@ let getMethodReturns = (jsonData) => {
                         return "<b>Returns:</b>\nObject<br>\n";
                         // log(("Incorrect syntax on method [" + jsonData.method + "] in the [returns] section...").red);
                     }
+                } else {
+                    // Arrays || Strings || Numbers || Booleans etc
+                    return "<b>Returns:</b>\n" + jsonData.returns.type + "<br>\n";
                 }
             }
         }
-
-
-
-
-
-
+    } else {
+        // log("no returns found on [" + jsonData.method + "]");
     }
 
     return str;

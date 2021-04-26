@@ -1,7 +1,8 @@
-# <b>TEST-README.md v0.9.0</b>
+# <b>TEST-README.md v0.9.2</b>
 
 ## <b>Summary</b>
 
+ - getFilesSync(dir,ext,recurse,includeHidden)
  - jsoGetDocs(filePathsArrayOrString)
  - testOldReturns(a,b)
  - test1(a,b)
@@ -17,6 +18,43 @@
 
 # <b>Documentation</b>
 
+## <b>getFilesSync(dir,ext,recurse,includeHidden)</b>
+<b>Information:</b><br>
+Gets an array of files in a directory. Hidden files start with a . (linux style, not windows)<br>
+#### <b>Parameters:</b>
+- <b>Name:</b> dir<br>
+<b>Type: </b>Array<br>
+<b>Required: </b>true<br>
+<b>Default: </b>null<br>
+<b>Info: </b>Directory.<br>
+
+- <b>Name:</b> ext<br>
+<b>Type: </b>String<br>
+<b>Required: </b>true<br>
+<b>Default: </b>*<br>
+<b>Info: </b>Array of files.<br>
+
+- <b>Name:</b> recurse<br>
+<b>Type: </b>Boolean<br>
+<b>Required: </b>false<br>
+<b>Default: </b>false<br>
+<b>Info: </b>Array of files.<br>
+
+- <b>Name:</b> includeHidden<br>
+<b>Type: </b>Boolean<br>
+<b>Required: </b>false<br>
+<b>Default: </b>false<br>
+<b>Info: </b>Array of files.<br>
+
+<b>Returns:</b>
+Array<br>
+```
+let files = getFilesSync('./src', '.js', true);
+```
+
+
+<hr><br><br>
+
 ## <b>jsoGetDocs(filePathsArrayOrString)</b>
 <b>Information:</b><br>
 Generates documentation from JavaScript Object based code comments (JSON) .<br>
@@ -24,6 +62,7 @@ Generates documentation from JavaScript Object based code comments (JSON) .<br>
 - <b>Name:</b> filePathsArrayOrString<br>
 <b>Type: </b>Array||String<br>
 <b>Required: </b>true<br>
+<b>Default: </b>null<br>
 <b>Info: </b>Either an array of file paths or a string which contains the documentation to process.<br>
 
 <b>Returns:</b> Object 
@@ -119,6 +158,8 @@ Test 2<br>
 <b>Required: </b>true<br>
 <b>Info: </b>A number you want add to a.<br>
 
+<b>Returns:</b>
+Array<br>
 ```
 /* Comment */
 let a = 1;
@@ -142,6 +183,8 @@ Test 3<br>
 <b>Required: </b>true<br>
 <b>Info: </b>A number you want add to a.<br>
 
+<b>Returns:</b>
+String<br>
 ```
 /* Comment */
 let a = 1;

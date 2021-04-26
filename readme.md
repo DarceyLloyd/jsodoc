@@ -33,6 +33,7 @@ Method example (Full):
 //             "name": "a",
 //             "type": "Number",
 //             "required": true,
+//             "default": "null",
 //             "info": "A number you want to add to b."
 //         },
 //         {
