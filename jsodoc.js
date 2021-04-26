@@ -27,7 +27,7 @@ const { getGitDocsForComment } = require("./src/getGitDocsForComment.js")
 //             {"name":"comments","type":"Array"}
 //         ]
 //     },
-//     "info": "Generates documentation from JavaScript Object based code comments (JSON) .",
+//     "info": "Generates documentation from JavaScript Object based code comments (JSON).",
 //     "example": [
 //         "/* Generate docs from an array of files */",
 //         "let docs = jsoGetDocs(filesArray)",

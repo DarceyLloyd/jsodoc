@@ -1,7 +1,9 @@
-# <b>JSODOC v0.9.0</b>
+# <b>JSODOC v0.9.1</b>
 ### <b>JavaScript Object (JSON) based Documentation Generation</b>
-<hr><br><br>
+<br>
 
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=Darcey%2eLloyd%40gmail%2ecom&lc=GB&item_name=Darcey%20Lloyd%20Developer%20Donation&currency_code=GBP&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
+<hr><br><br>
 
 ### <b>Coming Soon 1: Dynamically Generate Documentation Website</b>
 This is on the agenda, but for now JSODoc is currently only handling github documentation generation.
@@ -240,7 +242,7 @@ node build
 
 ## <b>jsoGetDocs(filePathsArrayOrString)</b>
 <b>Information:</b><br>
-Generates documentation from JavaScript Object based code comments (JSON) .<br>
+Generates documentation from JavaScript Object based code comments (JSON).<br>
 #### <b>Parameters:</b>
 - <b>Name:</b> filePathsArrayOrString<br>
 <b>Type: </b>Array||String<br>
@@ -251,7 +253,7 @@ Generates documentation from JavaScript Object based code comments (JSON) .<br>
 Object<br>
 ```
 /* Generate docs from an array of files */
-let docs = jsoGetDocs(srcFilesArray)
+let docs = jsoGetDocs(filesArray)
 
 or
 
