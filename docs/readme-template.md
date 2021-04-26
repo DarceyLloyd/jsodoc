@@ -1,4 +1,4 @@
-# <b>JSODOC v0.9.0</b>
+# <b>JSODOC v[[version]]</b>
 ### <b>JavaScript Object (JSON) based Documentation Generation</b>
 <hr><br><br>
 
@@ -233,32 +233,8 @@ node build
 
 ## <b>Available Methods & Class's:</b>
 
- - jsoGetDocs(filePathsArrayOrString)
-
-
-<hr><br><br>
-
-## <b>jsoGetDocs(filePathsArrayOrString)</b>
-<b>Information:</b><br>
-Generates documentation from JavaScript Object based code comments (JSON) .<br>
-#### <b>Parameters:</b>
-- <b>Name:</b> filePathsArrayOrString<br>
-<b>Type: </b>Array||String<br>
-<b>Required: </b>true<br>
-<b>Info: </b>Either an array of file paths or a string which contains the documentation to process.<br>
-
-<b>Returns:</b>
-Object<br>
-```
-/* Generate docs from an array of files */
-let docs = jsoGetDocs(srcFilesArray)
-
-or
-
-/* Generate docs from a string which contains the JavaScript Object based code comments (JSON) */
-let docs = jsoGetDocs(sourceString)
-```
-
+[[summary]]
 
 <hr><br><br>
 
+[[docs]]

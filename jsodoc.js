@@ -1,187 +1,92 @@
 const aftc = require("aftc-node-tools");
+const concatFiles = aftc.concatFiles;
+const cls = aftc.cls;
 const log = aftc.log;
 
-const fs = require('fs-extra');
-const path = require('path');
-const util = require('util');
+const { getJSOCommentsFromString } = require("./src/getJSOCommentsFromString.js")
+const { getMethodTitleAndParams } = require("./src/getMethodTitleAndParams.js")
+const { getGitDocsForComment } = require("./src/getGitDocsForComment.js")
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
+// JSODOC = {
+//     "method": "jsoGetDocs",
+//     "params": [
+//         {
+//             "name": "filePathsArrayOrString",
+//             "type": "Array||String",
+//             "required": true,
+//             "info": "Either an array of file paths or a string which contains the documentation to process."
+//         }
+//     ],
+//     "returns": {
+//         "type": "Object",
+//         "returns": [
+//             {"name":"gitSummary","type":"String"},
+//             {"name":"gitDocs","type":"String"},
+//             {"name":"comments","type":"Array"}
+//         ]
+//     },
+//     "info": "Generates documentation from JavaScript Object based code comments (JSON) .",
+//     "example": [
+//         "/* Generate docs from an array of files */",
+//         "let docs = jsoGetDocs(filesArray)",
+//         "",
+//         "or",
+//         "",
+//         "/* Generate docs from a string which contains the JavaScript Object based code comments (JSON) */",
+//         "let docs = jsoGetDocs(sourceString)"
+//     ]
+// } JSODOC
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-class JSODoc
-{
-    constructor()
-    {
-        this.comments = [];
-        this.docsjs = "";
-        // Might be able to just pass a reference in!
-        // this.docsjs += "const jsodoc = require(\"./node_modules/jsodoc/jsodoc.js\");"+"\n";
-        // this.docsjs += "const docs = new JSODoc();"+"\n";
+function jsoGetDocs(filePathsArrayOrString) {
+    let docs = {
+        gitSummary: "", // array of methods/class and arguments
+        gitDocs: "", // string ready for github readme.md use
+        comments: [], // array of json comments
+    };
+    let stringToParse = "";
+
+    // Check if we are processing files or a string
+    if (typeof (filePathsArrayOrString) == "string") {
+        stringToParse = filePathsArrayOrString;
+    } else if (filePathsArrayOrString instanceof Array) {
+        stringToParse = concatFiles(filePathsArrayOrString);
+    } else {
+        log("getDocs(): Usage error, please either supply an array of files to process or a string to parse...".red);
+        return;
     }
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    
-    add(vo){
-        log("JSODoc.add(vo)")
-        this.comments.push(vo);
-    }
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // Clear - encase of duplicate which could be a lot of ram
+    filePathsArrayOrString = false;
 
+    // Parse string for JSODoc Documentation
+    let commentsArray = getJSOCommentsFromString(stringToParse)
+    // log(commentsArray);
 
-    getPrependCode(){
-        log("JSODoc.getPrependCode()")
-        let code = "";
-        code += "const anu = require(\"../node-docs\");\n";
-        code += "const docs = new anu.Docs();\n";
-        return code;
-    }
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // Build docs object {gitSummary,gitDocs,comments}
+    commentsArray.forEach(comment => {
+        // log(comment);
+        let jsonData = JSON.parse(comment)
 
+        docs.gitSummary += " - " + getMethodTitleAndParams(jsonData) + "\n";
 
-    async build(filePath,docsUrl,silent=false){
-        if (!silent){
-            log(`JSODoc.build(filePath:${filePath},docsUrl:${docsUrl},silent:${silent}`,"cyan");
-        }
-        // Check file exists before using it
-        //path.resolve("./dist/aftc.dev.js");
-        const commentsFile = await aftc.checkFileExistsSync(filePath, 2, 4, false);
-        if (!commentsFile) {
-            log("# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #", "red")
-            log("JSODoc.build(): FAILED! Unable to find file [" + filePath + "]", "red");
-            log("# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #", "red")
-            return false;
-        }
+        docs.gitDocs += getGitDocsForComment(jsonData);
 
-        log(commentsFile);
-        log("TIME TO BUILD")
+        docs.comments.push(jsonData);
+    })
 
-    }
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-
-    parseComments(filePath,startMarker,endMarker,silent=true,showLinesAdded=false) {
-        if (!silent){
-            log(`JSODoc.parseComments(
-            filePath:${filePath},
-            startMarker:${startMarker},
-            endMarker:${endMarker},
-            silent:${silent}`,"cyan");
-        }
-    
-        const readline = require('readline');
-        let lines = [];
-        let newFile = "";
-        let lineNo = 0;
-        let linesAdded = 0;
-        let open = false; // flag for // CStart
-    
-        return promise = new Promise((resolve, reject) => {
-            let rl = readline.createInterface({
-                input: fs.createReadStream(filePath)
-            });
-        
-            rl.on('line', function (line) {
-                lineNo++;
-        
-                if (!open) {
-                    if (line.indexOf(startMarker) > -1) {
-                        open = true;
-                        // newFile += line + "\n";
-                        // linesAdded++;
-                        // if (!silent && showLinesAdded){
-                        //     log("ADDING ["+lineNo+"]: " + line,"yellow");
-                        // }
-                    }
-                } else {
-                    if (line.indexOf(endMarker) > -1) {
-                        open = false;
-                    } else {
-                        if (!silent && showLinesAdded){
-                            log("ADDING ["+lineNo+"]: " + line,"yellow");
-                        }
-                        newFile += line + "\n";
-                        linesAdded++;
-                    }
-                    
-                    
-                }
-            });
-        
-            rl.on('close', function (line) {
-                if (!silent && showLinesAdded){
-                    log('Processed ' + lineNo + " lines...","green");
-                    log('New file has ' + linesAdded + " lines...","green");
-                }
-                
-                // resolve(newFile);
-                return newFile;
-            });
-    
-    
-        });
-    }
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    return docs;
 }
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+
+
 
 
 module.exports = {
-    JSODoc
+    jsoGetDocs
 }
-
-
-
-
-
-
-// Tempate of a single docs object
-/*
-// ndoc start
-{
-    a: "dace",
-    c: [
-        {
-            name
-        }
-    ]
-}
-docs.add({
-    name: "xxx",
-    type: "function",
-    desc: "xxxx",
-    version: "0.0.0",
-    params: [
-        {
-            name: "elementId",
-            type: "string",
-            desc: "id of element to retrieve from the DOM"
-        },
-        {
-            name: "color",
-            type: "number",
-            desc: "color value to set DOM element background"
-        }
-    ],
-    methods: [
-        {
-            name: "randomizeColor",
-            desc: "id of element to retrieve from the DOM",
-            params: [],
-            returns: []
-        },
-        {
-            name: "setColor",
-            desc: "update the background color to a specified value",
-            params: [
-
-            ]
-        }
-    ],
-    returns: [],
-    alias: [],
-    links: []
-});
-
-// ndoc end
-*/
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

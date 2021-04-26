@@ -1,8 +1,17 @@
 {
   "name": "jsodoc",
-  "version": "0.1.3",
-  "description": "JS Object Based Docs",
-  "main": "index.js",
+  "description": "JavaScript Object (JSON) based Documentation Generation",
+  "version": "0.9.0",
+  "main": "jsodoc.js",
+  "dependencies": {
+    "aftc-node-tools": "^0.7.1",
+    "at-least-node": "^1.0.0",
+    "colors": "^1.4.0",
+    "fs-extra": "^9.1.0",
+    "graceful-fs": "^4.2.6",
+    "jsonfile": "^6.1.0",
+    "universalify": "^2.0.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,18 +19,10 @@
     "type": "git",
     "url": "git+https://github.com/DarceyLloyd/jsodoc.git"
   },
-  "keywords": [
-    "documentations",
-    "docs"
-  ],
-  "author": "darcey@aftc.io",
-  "license": "ISC",
+  "author": "darcey.lloyd@gmail.com",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/DarceyLloyd/jsodoc/issues"
   },
-  "homepage": "https://github.com/DarceyLloyd/jsodoc#readme",
-  "dependencies": {
-    "aftc-node-tools": "^0.1.0",
-    "fs-extra": "^8.1.0"
-  }
+  "homepage": "https://github.com/DarceyLloyd/jsodoc#readme"
 }
