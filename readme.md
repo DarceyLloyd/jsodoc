@@ -1,4 +1,4 @@
-# <b>JSODOC v0.9.1</b>
+# <b>JSODOC v0.9.2</b>
 ### <b>JavaScript Object (JSON) based Documentation Generation</b>
 <br>
 

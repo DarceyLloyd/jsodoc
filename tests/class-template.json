@@ -1,0 +1,43 @@
+{
+    "class": "Carousel",
+    "params": {
+        "type": "Object",
+        "params": [
+            {"name":"gitSummary","type":"String","required": true,"default": null,"info": "Info 1."},
+            {"name":"gitDocs","type":"String","required": true,"default": null,"info": "Info 2."},
+            {"name":"comments","type":"Array","required": true,"default": null,"info": "Info 3."}
+        ]
+    },
+    "params": [
+        {
+            "name": "dir",
+            "type": "Array",
+            "required": true,
+            "default": null,
+            "info": "Directory."
+        },
+        {
+            "name": "ext",
+            "type": "String",
+            "required": true,
+            "default": "*",
+            "info": "Array of files."
+        }
+    ],    
+    "returns": {
+        "type": "Array"
+    },
+    "returns": {
+        "type": "Object",
+        "params": [
+            {"name":"gitSummary","type":"String"},
+            {"name":"gitDocs","type":"String"},
+            {"name":"comments","type":"Array"}
+        ]
+    },    
+    "info": "Gets an array of files in a directory. Hidden files start with a . (linux style, not windows)",
+    "example": [
+        "let files = getFilesSync('./src', '.js', true);"
+    ]
+}
+

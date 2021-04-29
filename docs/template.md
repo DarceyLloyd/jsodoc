@@ -1,4 +1,4 @@
-# <b>JSODOC v1.0.0</b>
+# <b>JSODOC v[[version]]</b>
 ### <b>JavaScript Object (JSON) based Documentation Generation</b>
 <br>
 
@@ -393,7 +393,7 @@ console.log("Building script starting!")
 
 let subs = {
     "[[version]]":version,
-    "darcey.lloyd@gmail.com":"darcey.lloyd@gmail.com"
+    "[[author]]":"darcey.lloyd@gmail.com"
 }
 
 new JSODoc({
@@ -425,67 +425,9 @@ node build
 
 ## <b>Available Methods & Class's:</b>
 
-
- - <b>JSODoc({object})</b>
-
-<hr><br><br>
-
-
+[[git-summary]]
 
 
 <hr><br><br>
 
-## <b>JSODoc({object}))</b>
-### <b>Information</b>
-Comment generation from JSON comments.
-
-### <b>Parameters</b>
-
-- <b>Object:</b>
-
-	- <b>Obj1Param1</b>
-		- <b>Required:</b> true
-		- <b>Default:</b> null
-		- <b>Info:</b> Info...
-	- <b>Obj1Param2</b>
-		- <b>Required:</b> true
-		- <b>Default:</b> null
-		- <b>Info:</b> Info...
-	- <b>Obj1Param3</b>
-		- <b>Required:</b> true
-		- <b>Default:</b> null
-		- <b>Info:</b> Info...
-
-### <b>Example</b>
-
-```
-// npm i -D aftc-node-tools
-// npm i -D jsodoc
-
-const { log, cls } = require('aftc-node-tools');
-const { JSODoc } = require('./jsodoc');
-const version = require('./package.json').version;
-
-cls();
-log('Building script starting!'.green)
-
-let subs = {
-    '[[version]]':version,
-    '[[author]]':'darcey.lloyd@gmail.com'
-}
-
-new JSODoc({
-    dir: './src',
-    recursive: true,
-    ext: 'js',
-    template: './docs/template.md',
-    substitutions: mySubs,
-    output: './tests/test.md'
-})
-
-log('Building script completed!'.green)
-```
-
-
-<hr><br><br>
-
+[[git-docs]]

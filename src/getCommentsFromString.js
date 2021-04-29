@@ -6,11 +6,12 @@ const log = aftc.log;
 
 
 
-function getJSOCommentsFromString(input) {
+function getCommentsFromString(input) {
 
     let lines = input.split("\n");
+    // log(lines);
     let JSODocOpen = false;
-    let comments = [];
+    let jsonComments = [];
 
     // process lines array
     let comment = [];
@@ -22,16 +23,15 @@ function getJSOCommentsFromString(input) {
         line = line.replace(/(\r\n|\n|\t|\r)/gm, "").trim(); // remove \t \n \r
         // log(line.length + "    " + line);
 
-        // Only check lines that are > 10 and < 15 chars long for JSON Open and Close tags
+        // Only check lines that are > 5 and < 20 chars long for Open and Close markers
         // Open: JSODOC {
         // Close: } JSODOC
 
         if (!JSODocOpen) {
             // Look for JSODOC start
-            if (line.length > 10 && line.length < 15) {
-                let foundOepener = line.toLowerCase().indexOf("jsodoc = {");
+            if (line.length > 5 && line.length < 20) {
+                let foundOepener = line.toLowerCase().indexOf("jsodoc = {")
                 if (foundOepener != -1) {
-                    // log(line);
                     JSODocOpen = true;
                     // line = line.replace("jsodoc = {", "{");
                     comment.push( cleanAndAddComment("{") );
@@ -46,8 +46,10 @@ function getJSOCommentsFromString(input) {
                 JSODocOpen = false;
                 // line = line.replace("} jsodoc", "}");
                 comment.push( cleanAndAddComment("}") );
-                comments.push(comment.join(""));
-                comment = [];
+                let fullCommentString = comment.join("");
+                let jsonComment = JSON.parse(fullCommentString);
+                jsonComments.push(jsonComment);
+                comment = []; // reset comment for next JSODoc comment
             } else {
                 comment.push( cleanAndAddComment(line) );
             }
@@ -58,7 +60,7 @@ function getJSOCommentsFromString(input) {
     }
 
 
-    return comments;
+    return jsonComments;
 }
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -66,8 +68,14 @@ function getJSOCommentsFromString(input) {
 
 
 let cleanAndAddComment = function (rawComment) {
-    let cleanComment = rawComment.replace(/\/\//g, "").trim(); // remove all //
+    let cleanComment = rawComment
     // cleanComment = rawComment.replace(/\\/g, "/"); // replaces all \\ to / (g flag)
+
+    // Note this works well but as it removes all not just first // it stops any code comments or links being used
+    // cleanComment = rawComment.replace(/\/\//g, "").trim(); // remove all //
+    cleanComment = rawComment.replace(/\/\//, "").trim(); // remove first //
+    // cleanComment = cleanComment.replace("\\"+"#")
+
     cleanComment = cleanComment.replace(/(\t)/gm, "").trim(); // remove all \t
     // comment.push(cleanComment);
     // log(cleanComment);
@@ -81,6 +89,6 @@ let cleanAndAddComment = function (rawComment) {
 
 
 module.exports = {
-    getJSOCommentsFromString
+    getCommentsFromString
 }
 // - - - - - - - - - - - - - - - - - - - - - - - - - -
