@@ -16,7 +16,7 @@ new JSODoc({
     // ext: 'js',
     template: './docs/template.md',
     substitutions: subs,
-    output: './tests/test.md',
+    output: './readme.md',
     overrideGitSummaryTag: "[[git-summary]]",
     overrideGitDocsTag: "[[git-docs]]"
 })
