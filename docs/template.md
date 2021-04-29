@@ -422,12 +422,10 @@ node build
 
 
 
+# <b>JSODOC - Generated documentation</b>
 
 ## <b>Available Methods & Class's:</b>
 
 [[git-summary]]
-
-
-<hr><br><br>
 
 [[git-docs]]

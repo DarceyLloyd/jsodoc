@@ -422,6 +422,7 @@ node build
 
 
 
+# <b>JSODOC - Generated documentation</b>
 
 ## <b>Available Methods & Class's:</b>
 
@@ -432,9 +433,6 @@ node build
 
 
 
-
-<hr><br><br>
-
 ## <b>JSODoc({object}))</b>
 ### <b>Information</b>
 Comment generation from JSON comments.
@@ -443,18 +441,34 @@ Comment generation from JSON comments.
 
 - <b>Object:</b>
 
-	- <b>Obj1Param1</b>
-		- <b>Required:</b> true
+	- <b>files</b>
+		- <b>Required:</b> false
+		- <b>Default:</b> false
+		- <b>Info:</b> For using JSODoc in files mode
+	- <b>dir</b>
+		- <b>Required:</b> false
+		- <b>Default:</b> false
+		- <b>Info:</b> For using JSODoc in directory mode
+	- <b>recursive</b>
+		- <b>Required:</b> false
+		- <b>Default:</b> false
+		- <b>Info:</b> Directory mode recursive scan on or off
+	- <b>ext</b>
+		- <b>Required:</b> false
 		- <b>Default:</b> null
-		- <b>Info:</b> Info...
-	- <b>Obj1Param2</b>
-		- <b>Required:</b> true
-		- <b>Default:</b> null
-		- <b>Info:</b> Info...
-	- <b>Obj1Param3</b>
-		- <b>Required:</b> true
-		- <b>Default:</b> null
-		- <b>Info:</b> Info...
+		- <b>Info:</b> Directory mode extensions of files to use
+	- <b>template</b>
+		- <b>Required:</b> false
+		- <b>Default:</b> false
+		- <b>Info:</b> If you want JSODOC to use a template and sustitute into it
+	- <b>substitutions</b>
+		- <b>Required:</b> false
+		- <b>Default:</b> false
+		- <b>Info:</b> User substitutions object (key value pairs)
+	- <b>output</b>
+		- <b>Required:</b> false
+		- <b>Default:</b> ./readme.md
+		- <b>Info:</b> The full path to the .md file to create/write to
 
 ### <b>Example</b>
 

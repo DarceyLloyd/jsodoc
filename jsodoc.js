@@ -33,38 +33,42 @@ const { getGitDocsFromComment } = require("./src/getGitDocsFromComment")
 //         {
 //             "type": "object",
 //             "def": [
-//                 { "name": "Obj1Param1", "required": true, "default": null, "info": "Info..." },
-//                 { "name": "Obj1Param2", "required": true, "default": null, "info": "Info..." },
-//                 { "name": "Obj1Param3", "required": true, "default": null, "info": "Info..." }
+//                 { "name": "files", "required": false, "default": false, "info": "For using JSODoc in files mode" },
+//                 { "name": "dir", "required": false, "default": false, "info": "For using JSODoc in directory mode" },
+//                 { "name": "recursive", "required": false, "default": false, "info": "Directory mode recursive scan on or off" },
+//                 { "name": "ext", "required": false, "default": null, "info": "Directory mode extensions of files to use" },
+//                 { "name": "template", "required": false, "default": false, "info": "If you want JSODOC to use a template and sustitute into it" },
+//                 { "name": "substitutions", "required": false, "default": false, "info": "User substitutions object (key value pairs)" },
+//                 { "name": "output", "required": false, "default": "./readme.md", "info": "The full path to the .md file to create/write to" }
 //             ]
 //         }
 //     ],
 //     "example": [
-//        "// npm i -D aftc-node-tools",
-//        "// npm i -D jsodoc",
-//        "",
-//        "const { log, cls } = require('aftc-node-tools');",
-//        "const { JSODoc } = require('./jsodoc');",
-//        "const version = require('./package.json').version;",
-//        "",
-//        "cls();",
-//        "log('Building script starting!'.green)",
-//        "",
-//        "let subs = {",
-//        "    '[[version]]':version,",
-//        "    '[[author]]':'darcey.lloyd@gmail.com'",
-//        "}",
-//        "",
-//        "new JSODoc({",
-//        "    dir: './src',",
-//        "    recursive: true,",
-//        "    ext: 'js',",
-//        "    template: './docs/template.md',",
-//        "    substitutions: mySubs,",
-//        "    output: './tests/test.md'",
-//        "})",
-//        "",
-//        "log('Building script completed!'.green)"
+//         "// npm i -D aftc-node-tools",
+//         "// npm i -D jsodoc",
+//         "",
+//         "const { log, cls } = require('aftc-node-tools');",
+//         "const { JSODoc } = require('./jsodoc');",
+//         "const version = require('./package.json').version;",
+//         "",
+//         "cls();",
+//         "log('Building script starting!'.green)",
+//         "",
+//         "let subs = {",
+//         "    '[[version]]':version,",
+//         "    '[[author]]':'darcey.lloyd@gmail.com'",
+//         "}",
+//         "",
+//         "new JSODoc({",
+//         "    dir: './src',",
+//         "    recursive: true,",
+//         "    ext: 'js',",
+//         "    template: './docs/template.md',",
+//         "    substitutions: mySubs,",
+//         "    output: './tests/test.md'",
+//         "})",
+//         "",
+//         "log('Building script completed!'.green)"
 //     ]
 // } JSODOC
 
@@ -81,7 +85,7 @@ class JSODoc {
         ext: false, // extension of files types to collect
         template: false, // the readme template file to use (if not supplied gitDocs will be injected)
         substitutions: false, // single dimensional object for key pair parsing
-        output: false, // file create/output to
+        output: "./readme.md", // file create/output to
         overrideGitSummaryTag: false,
         overrideGitDocsTag: false,
     }
@@ -208,18 +212,18 @@ class JSODoc {
                 // log(this.args.substitutions)
                 for (const key in this.args.substitutions) {
                     let value = this.args.substitutions[key]
-                    this.readme = this.readme.replace(key,value)
+                    this.readme = this.readme.replace(key, value)
                 }
             }
 
             // this.readme = this.readme.replace("[[version]]",version)
-            if (this.args.overrideGitSummaryTag !== false){
+            if (this.args.overrideGitSummaryTag !== false) {
                 this.readme = this.readme.replace(this.args.overrideGitSummaryTag, this.docs.gitSummary)
             } else {
                 this.readme = this.readme.replace("[[jsodoc-git-summary]]", this.docs.gitSummary)
             }
 
-            if (this.args.overrideGitDocsTag !== false){
+            if (this.args.overrideGitDocsTag !== false) {
                 this.readme = this.readme.replace(this.args.overrideGitDocsTag, this.docs.gitDocs)
             } else {
                 this.readme = this.readme.replace("[[jsodoc-git-docs]]", this.docs.gitDocs)
