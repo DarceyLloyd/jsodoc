@@ -333,7 +333,7 @@ new JSODoc({
 [[jsodoc-git-docs]]
 ```
 
--  Setup you user subs
+-  Setup you user Substitutions
 ```
 // get version from package.json
 const version = require("./package.json").version;
