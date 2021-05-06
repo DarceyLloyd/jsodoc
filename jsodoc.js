@@ -105,9 +105,8 @@ class JSODoc {
     // - - - - - - - - - - - - -
 
     constructor() {
-        log("# # # # # # # # # # # # # # # # # # # # # # # # #".yellow)
+        log("")
         log(("JSODoc v" + version).green)
-        log("# # # # # # # # # # # # # # # # # # # # # # # # #".yellow)
 
         // Parse supplied arguments
         parseObjectToObject(arguments[0], this.args, true)
@@ -238,7 +237,6 @@ class JSODoc {
         writeFile(this.args.output, this.readme)
 
         log(("File: " + this.args.output + " has been generated.").green)
-        log("# # # # # # # # # # # # # # # # # # # # # # # # #".yellow)
     }
     // - - - - - - - - - - - - -
 

@@ -1,4 +1,4 @@
-# <b>JSODOC v1.0.0</b>
+# <b>JSODOC v1.0.1</b>
 ### <b>JavaScript Object (JSON) based Documentation Generation</b>
 <br>
 
@@ -11,16 +11,68 @@ This is on the agenda, but for now JSODoc is currently only handling github docu
 <hr><br><br>
 
 
-### <b>Is it usable now?</b>
-<b>YES</b> - Your reading docs generated from it now.
-<hr><br><br>
-
-
 ### <b>What can it do? (It generated this readme.md)</b>
 JSODoc currently generates documentation in github markup. You can also get the documentation in JSON format so you can do anything you want with it. It can process any file type which supports // as code comments.
 
-It supports class's and input params, methods, returns
+It supports class's, methods, inputs & return definitions
 <hr><br><br>
+
+
+
+
+## <b>Quick Summary</b>
+### <b>Installs</b>
+```
+npm i -D JSODOC
+```
+
+### <b>Create file: ./docs/template.js</b>
+```
+# <b>Project v[[version]]</b>
+
+## <b>Available class's & Methods</b>
+[[jsodoc-git-summary]]
+
+# <b>Documentation</b>
+[[jsodoc-git-docs]]
+```
+
+### <b>Create file: build.js</b>
+```
+const { JSODoc } = require("jsodoc");
+const version = require("./package.json").version;
+
+console.clear()
+
+let subs = {
+    "[[version]]":version,
+    "darcey.lloyd@gmail.com":"darcey.lloyd@gmail.com"
+}
+
+new JSODoc({
+    dir: './src',
+    recursive: true,
+    ext: 'js',
+    template: './docs/template.md',
+    substitutions: subs,
+    output: './tests/test.md'
+})
+```
+
+### <b>Run build script</b>
+```
+node build
+```
+
+Remember to add to your comments to your src files in the JSODOC way or it wont generate anything (examples of this are below).
+
+<hr><br><br><br>
+
+
+
+
+
+
 
 ## <b>How do I add JSODOC comments to my files?</b>
 
@@ -364,54 +416,6 @@ node build
 
 
 
-
-
-## <b>Quick Summary</b>
-### <b>Installs</b>
-```
-npm i -D JSODOC
-```
-
-### <b>Create file: ./docs/template.js</b>
-```
-# <b>Project v[[version]]</b>
-
-## <b>Available class's & Methods</b>
-[[jsodoc-git-summary]]
-
-# <b>Documentation</b>
-[[jsodoc-git-docs]]
-```
-
-### <b>Create file: build.js</b>
-```
-const { JSODoc } = require("jsodoc");
-const version = require("./package.json").version;
-
-console.clear()
-console.log("Building script starting!")
-
-let subs = {
-    "[[version]]":version,
-    "darcey.lloyd@gmail.com":"darcey.lloyd@gmail.com"
-}
-
-new JSODoc({
-    dir: './src',
-    recursive: true,
-    ext: 'js',
-    template: './docs/template.md',
-    substitutions: mySubs,
-    output: './tests/test.md'
-})
-
-console.log("Building script completed!")
-```
-
-### <b>Run build script</b>
-```
-node build
-```
 
 
 
