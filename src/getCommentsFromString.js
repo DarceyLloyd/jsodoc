@@ -47,8 +47,18 @@ function getCommentsFromString(input) {
                 // line = line.replace("} jsodoc", "}");
                 comment.push( cleanAndAddComment("}") );
                 let fullCommentString = comment.join("");
-                let jsonComment = JSON.parse(fullCommentString);
-                jsonComments.push(jsonComment);
+                let jsonComment = "";
+                try {
+                    jsonComment = JSON.parse(fullCommentString)
+                    jsonComments.push(jsonComment);
+                } catch (e){
+                    log("")
+                    log("JSODOC - ERROR - UNABLE TO PARSE THE FOLLOWING TO JSON:".red)
+                    log(fullCommentString.red)
+                    log("")
+                    // console.log(e)
+                    // console.log("------------------")
+                }
                 comment = []; // reset comment for next JSODoc comment
             } else {
                 comment.push( cleanAndAddComment(line) );
