@@ -5,8 +5,7 @@ const version = require("./package.json").version;
 cls();
 
 let subs = {
-    "[[version]]":version,
-    "[[author]]":"darcey.lloyd@gmail.com"
+    "[[version]]":version
 }
 
 new JSODoc({
