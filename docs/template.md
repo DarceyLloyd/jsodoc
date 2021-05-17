@@ -26,7 +26,7 @@ It supports class's, methods, inputs & return definitions
 npm i -D JSODOC
 ```
 
-### <b>Create file: ./docs/template.js</b>
+### <b>Create file: ./docs/template.md</b>
 ```
 # <b>Project v[[version]]</b>
 

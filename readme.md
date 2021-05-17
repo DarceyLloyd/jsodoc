@@ -1,4 +1,4 @@
-# <b>JSODOC v1.0.2</b>
+# <b>JSODOC v1.0.4</b>
 ### <b>JSON Code comments and Documentation generator</b>
 <br>
 
@@ -26,7 +26,7 @@ It supports class's, methods, inputs & return definitions
 npm i -D JSODOC
 ```
 
-### <b>Create file: ./docs/template.js</b>
+### <b>Create file: ./docs/template.md</b>
 ```
 # <b>Project v[[version]]</b>
 
