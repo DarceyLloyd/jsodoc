@@ -20,16 +20,17 @@ let str = `// JSODOC = {
 //     ]
 // } JSODOC`;
 
-let docs = new JSODoc({
+let jsoDoc = new JSODoc({
     // comments: str,
     // files: ['./tests/basic.js'],
     dir: './tests',
     recursive: false,
-    ext: 'js',
+    ext: ['js','ts'],
     template: './tests/template.md',
     substitutions: subs,
     output: './tests/test.md'
 })
+jsoDoc.start();
 
 
 

@@ -1,5 +1,10 @@
 const fs = require("fs")
+const { promisify } = require('util');
+const readdir = promisify(fs.readdir);
+const stat = promisify(fs.stat);
+const fse = require("fs-extra")
 const path = require("path")
+const { resolve } = require('path');
 
 const aftc = require("aftc-node-tools")
 const cls = aftc.cls
@@ -10,6 +15,7 @@ const isDir = aftc.isDir;
 const isFile = aftc.isFile;
 const readFileToString = aftc.readFileToString;
 const writeFile = aftc.writeFile;
+
 
 const version = require("./package.json").version
 
@@ -105,12 +111,20 @@ class JSODoc {
     // - - - - - - - - - - - - -
 
     constructor() {
+        console.clear();
         log("")
         log(("JSODoc v" + version).green)
 
         // Parse supplied arguments
         parseObjectToObject(arguments[0], this.args, true)
         // log(this.args)
+    }
+
+
+
+    async start() {
+
+
 
 
         // Validate & Process supplied arguments
@@ -136,7 +150,7 @@ class JSODoc {
                 break;
             case "dir":
                 // Validate / format this.args.ext so we process the correct file extensions (.js .php etc)
-                this.args.ext = formatExt(this.args.ext)
+                // this.args.ext = formatExt(this.args.ext)
 
                 // Process path for usage
                 this.args.dir = path.resolve(this.args.dir)
@@ -147,7 +161,36 @@ class JSODoc {
                     return;
                 }
 
-                this.args.files = getFilesSync(this.args.dir, this.args.ext, this.args.recursive)
+
+                console.warn("####################")
+                let allFiles = await this.getFiles(this.args.dir)
+                // console.warn(allFiles);
+                // this.args.files = [];
+
+                // Filter files
+                this.args.files = [];
+                allFiles.forEach(fileToCheck =>{
+                    // let temp = fileToCheck + "[" + path.extname(fileToCheck) + "]"
+                    let fext = path.extname(fileToCheck);
+                    fext = fext.replace(".","");
+                    // log(fileToCheck,fext)
+                    
+                    this.args.ext.forEach(allowedExt => {
+                        // log(allowedExt);
+                        if (fext === allowedExt) {
+                            // log(`Found ${fext} on ${fileToCheck}`)
+                            this.args.files.push(fileToCheck);
+                        }
+                    })
+                })
+
+                // console.warn(this.args.files);
+                // return;
+
+
+
+                // console.warn(this.args.files);
+
                 // this.args.files = getFilesSync("./tests", ".js", false)
 
                 this.docs.comments = getCommentsFromFiles(this.args.files)
@@ -242,7 +285,33 @@ class JSODoc {
 
 
 
+    async getFiles(dir) {
+        const subdirs = await readdir(dir);
+        const files = await Promise.all(subdirs.map(async (subdir) => {
+            const res = resolve(dir, subdir);
+            return (await stat(res)).isDirectory() ? this.getFiles(res) : res;
+        }));
+        return files.reduce((a, f) => a.concat(f), []);
+    }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+
+
+    async getFilesOfType(dir, ext) {
+        const subdirs = await readdir(dir);
+        const files = await Promise.all(subdirs.map(async (subdir) => {
+            const res = resolve(dir, subdir);
+
+            let f = (await stat(res)).isDirectory() ? await this.getFiles(res) : res;
+            console.log(f);
+            if (f.includes(ext)) {
+                return f;
+            }
+            // return f;
+        }));
+        return files.reduce((a, f) => a.concat(f), []);
+    }
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
 

@@ -1,7 +1,7 @@
 {
   "name": "jsodoc",
   "description": "JSON Code comments and documentation generator",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": "jsodoc.js",
   "dependencies": {
     "aftc-node-tools": "^0.7.16",

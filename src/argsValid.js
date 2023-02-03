@@ -134,9 +134,10 @@ Please see usage documentation at: https://github.com/DarceyLloyd/jsodoc
             }
 
             if (args.ext !== false) {
-                if (typeof (args.ext) !== "string") {
-                    msg = "JSODoc: Usage error: You have set 'ext' to something other than a string, only strings are supported."
+                if (typeof (args.ext) !== "string" && typeof (args.ext) !== "object") {
+                    msg = "JSODoc: Usage error: You have set 'ext' to something other than a string, only strings and arrays are supported."
                     log(msg.red)
+                    log(`${typeof(args.ext)}`.red)
                     log(commonMessage.yellow)
                     return false
                 }

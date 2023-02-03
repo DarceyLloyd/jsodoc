@@ -6,8 +6,8 @@
 <hr><br><br>
 
 
-### <b>Coming Soon 1: Dynamically Generate Documentation Website</b>
-This is on the agenda, but for now JSODoc is currently only handling github documentation generation. Want it sooner? Donate.
+### <b>Latest updates</b>
+- Allowed to parse multiple file extensions as an array
 <hr><br><br>
 
 
